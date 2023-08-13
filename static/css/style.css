@@ -1,0 +1,86 @@
+body {
+    background-color: #F9FAFC;
+}
+
+.bg-primary {
+    background-color: #FF6D60 !important;
+}
+
+.color-primary {
+    color: #FF6D60 !important;
+}
+
+.link-primary {
+    color: #FF6D60 !important;
+}
+
+.link-primary.active {
+    font-weight: 600;
+    background-color: inherit;
+}
+
+.link-primary-small {
+    color: #FF6D60 !important;
+    font-size: .9rem;
+}
+
+.link-primary-small:hover {
+    text-decoration: none;
+}
+
+.link-primary-small:active {
+    background-color: inherit;
+}
+
+.light-text {
+    color: #4A4A4F;
+}
+
+.horizontal-card-image {
+    width: 150px !important;
+    height: 150px !important;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.footer {
+    font-size: .9rem;
+}
+
+.card-img-top-div {
+    height: 200px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.brand {
+    font-family: Lato, sans-serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #4A4A4F;
+}
+
+.home-search-wrapper {
+    margin-top: -150px;
+}
+
+.search-select-first {
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
+}
+
+.search-select-no-border-radius {
+    border-radius: 0;
+}
+
+.search-input-last {
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+}
