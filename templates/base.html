@@ -24,7 +24,42 @@
 <nav class="navbar navbar-light bg-white">
     <div class="container-fluid">
         <a class="navbar-brand color-primary" href="{% url 'home' %}">Book a Restaurant</a>
-
+        {% if user.is_authenticated %}
+        <div class="nav-item dropdown">
+            <a class="dropdown-toggle link-primary" href="#" id="navbarDropdown" role="button"
+               data-bs-toggle="dropdown" aria-expanded="false">
+                {{ user.username }}
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                <li><a class="dropdown-item btn btn-link link-primary-small fw-light"
+                       href="{% url 'account_reservations' %}">My Account</a></li>
+                {% if user.restaurants.count > 0 %}
+                <li>
+                    <hr class="dropdown-divider">
+                </li>
+                <li><span class="dropdown-item-text link-primary-small">Restaurant Management</span></li>
+                {% for restaurant in user.restaurants.all %}
+                <li><a class="dropdown-item  link-primary-small fw-light"
+                       href="{% url 'account_restaurant_reservations' restaurant.id %}">{{ restaurant.name }}</a>
+                </li>
+                {% endfor %}
+                <li>
+                    <hr class="dropdown-divider">
+                </li>
+                {% endif %}
+                <li>
+                    <form method="post" action="{% url 'account_logout' %}">
+                        {% csrf_token %}
+                        <button class="dropdown-item btn btn-link link-primary-small fw-light"
+                                type="submit">Logout
+                        </button>
+                    </form>
+                </li>
+            </ul>
+        </div>
+        {% else %}
+        <a class="nav-link link-primary" href="{% url 'account_login' %}">Login</a>
+        {% endif %}
     </div>
 </nav>
 
