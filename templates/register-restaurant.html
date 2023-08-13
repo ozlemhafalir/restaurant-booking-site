@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container pt-4 mb-5">
+    <div class="row">
+        <div class="col-12 col-md-3 col-lg-4">
+
+        </div>
+        <div class="col-12 col-md-6 col-lg-4 text-center">
+            <h4>Register your restaurant</h4>
+            {% if user.is_authenticated %}
+            <p><small>You are registering your restaurant as {{ user.username }}</small></p>
+            <div class="text-start">
+                {% include "components/restaurant-registration-form.html" %}
+            </div>
+            {% else %}
+            <h6 class="mt-4 mb-4">Login or register to create an account to register your restaurant</h6>
+            <a class="btn btn-primary btn-sm" href="{% url 'account_login' %}?next={{ request.get_full_path }}">Login</a>
+            <a class="btn btn-link btn-sm link-primary" href="{% url 'account_signup' %}?next={{ request.get_full_path }}">Register</a>
+            {% endif %}
+        </div>
+        <div class="col-12 col-md-3 col-lg-4">
+
+        </div>
+    </div>
+
+
+</div>
+
+{% endblock %}

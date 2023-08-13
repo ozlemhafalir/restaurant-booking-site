@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+    <div class="carousel-indicators">
+        {% for image in restaurant.images.all %}
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="{{ forloop.counter0 }}" class="{{forloop.counter0|index_class}} {{forloop.counter0}}"
+                aria-current="true" aria-label="Slide 1"></button>
+        {% endfor %}
+    </div>
+    <div class="carousel-inner" style="max-height: 600px;">
+        {% for image in restaurant.images.all %}
+        <div class="carousel-item {{forloop.counter0|index_class}} {{forloop.counter0}}">
+            <img src="{{image.image.url}}" class="img-fluid w-100" alt="first slide">
+        </div>
+        {% endfor %}
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
+            data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
+            data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+</div>
+<div class="container pt-4 mb-5">
+    <div class="row">
+        <div class="col-12 left">
+            <div class="row">
+                <div class="col-12 col-md-6 mt-3">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <h4><span class="me-3">{{ restaurant.name }}</span><small class="fw-lighter light-text text-nowrap"><i class="fas fa-map-marker-alt me-2"></i>{{ restaurant.city }}</small></h4>
+                        </div>
+                        <div>
+                            <!-- Button trigger modal -->
+                            <button type="button" class="btn btn-warning light-color btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                Menu
+                            </button>
+                        </div>
+                    </div>
+                    <p class="fw-lighter"><i class="fas fa-utensils me-2"></i>{{ restaurant.cuisine_names }}</p>
+                    <p>{{ restaurant.description }}</p>
+                    {% if user.is_authenticated %}
+                    {% include "components/reservation-form.html" %}
+                    {% else %}
+                    <h6>Login or register to make a reservation</h6>
+                    <a class="btn btn-primary btn-sm" href="{% url 'account_login' %}?next={{ request.get_full_path }}">Login</a>
+                    {% endif %}
+                </div>
+                <div class="col-12 col-md-6 mt-3">
+                    <p class="fw-lighter"><i class="fas fa-map me-2"></i><span id="address">{{ restaurant.address }}</span></p>
+                    <div id="map" api-key="{{ google_maps_api_key }}" style="min-height: 600px"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Menu</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <img class="img-fluid" src="{{ restaurant.menu.url }}" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{%endblock%}
+{% block scripts %}
+<script>
+    (g=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="__ib__",m=document,b=window;b=b[c]||(b[c]={});var d=b.maps||(b.maps={}),r=new Set,e=new URLSearchParams,u=()=>h||(h=new Promise(async(f,n)=>{await (a=m.createElement("script"));e.set("libraries",[...r]+"");for(k in g)e.set(k.replace(/[A-Z]/g,t=>"_"+t[0].toLowerCase()),g[k]);e.set("callback",c+".maps."+q);a.src=`https://maps.${c}apis.com/maps/api/js?`+e;d[q]=f;a.onerror=()=>h=n(Error(p+" could not load."));a.nonce=m.querySelector("script[nonce]")?.nonce||"";m.head.append(a)}));d[l]?console.warn(p+" only loads once. Ignoring:",g):d[l]=(f,...n)=>r.add(f)&&u().then(()=>d[l](f,...n))})({
+        key: document.getElementById("map").getAttribute("api-key"),
+        // Add other bootstrap parameters as needed, using camel case.
+        // Use the 'v' parameter to indicate the version to load (alpha, beta, weekly, etc.)
+    });
+</script>
+<script type="application/javascript">
+    let geocoder, map;
+
+    async function initMap() {
+        const { Map } = await google.maps.importLibrary("maps");
+        geocoder = new google.maps.Geocoder();
+        const address = document.getElementById("address").innerText;
+        geocoder.geocode({
+            'address': address
+        }, function(results, status) {
+            if (status == google.maps.GeocoderStatus.OK) {
+                var myOptions = {
+                    zoom: 12,
+                    center: results[0].geometry.location,
+                    mapTypeId: google.maps.MapTypeId.ROADMAP
+                }
+                map = new Map(document.getElementById("map"), myOptions);
+
+                var marker = new google.maps.Marker({
+                    map: map,
+                    position: results[0].geometry.location
+                });
+            }
+        });
+    }
+
+    initMap();
+</script>
+{% endblock %}

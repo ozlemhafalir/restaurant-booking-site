@@ -1,0 +1,46 @@
+<form method="POST" action="{% url 'register_restaurant_form' %}">
+    {% csrf_token %}
+    <fieldset>
+        <div class="mb-3">
+            <label for="name" class="form-label">Restaurant Name</label>
+            <input type="text" id="name" name="name" class="form-control"
+                   placeholder="Restaurant Name" required/>
+        </div>
+        <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <textarea id="description" name="description" class="form-control"
+                      placeholder="Description" required></textarea>
+        </div>
+        <div class="mb-3">
+            <label for="address" class="form-label">Address</label>
+            <input type="text" id="address" name="address" class="form-control"
+                   placeholder="Address" required/>
+        </div>
+        <div class="mb-3">
+            <label for="city">City</label>
+            <select name="city" id="city" class="form-select" aria-label="Default select example" required>
+                {% for city in cities %}
+                {% if city == restaurant.city %}
+                <option value="{{ city.id }}" selected>{{ city.name }}</option>
+                {% else %}
+                <option value="{{ city.id }}">{{ city.name }}</option>
+                {% endif %}
+                {% endfor %}
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="cuisines">Cuisine</label>
+            <select name="cuisines" id="cuisines" class="form-select" multiple
+                    aria-label="Default select example">
+                {% for cuisine in cuisines %}
+                {% if cuisine in restaurant.cuisines.all %}
+                <option value="{{ cuisine.id }}" selected>{{ cuisine.name }}</option>
+                {% else %}
+                <option value="{{ cuisine.id }}">{{ cuisine.name }}</option>
+                {% endif %}
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </fieldset>
+</form>

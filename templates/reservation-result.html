@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container pt-4 mb-5">
+    <div class="row">
+        <div class="col-12">
+            <p>We received your reservation, you can check your booking in your <a class="link-primary" href="{% url "account_reservations" %}">account</a> page</p>
+        </div>
+    </div>
+</div>
+{%endblock%}
