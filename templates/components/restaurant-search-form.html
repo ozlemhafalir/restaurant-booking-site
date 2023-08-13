@@ -1,0 +1,31 @@
+<form method="GET" action="/restaurant" class="d-flex justify-content-center">
+    <div class="input-group mb-3">
+        <select name="city" class="form-select search-select-first" aria-label="Default select example">
+            <option value="all">All Cities</option>
+            {% for city in cities %}
+            {% if city.name == selected_city %}
+            <option value="{{ city.name }}" selected>{{city.name}}</option>
+            {% else %}
+            <option value="{{ city.name }}">{{city.name}}</option>
+            {% endif %}
+            {% endfor %}
+        </select>
+    </div>
+    <div class="input-group mb-3">
+        <select name="cuisine" class="form-select search-select-no-border-radius" aria-label="Default select example">
+            <option value="all">All Cuisines</option>
+            {% for cuisine in cuisines %}
+            {% if cuisine.name == selected_cuisine %}
+            <option value="{{ cuisine.name }}" selected>{{cuisine.name}}</option>
+            {% else %}
+            <option value="{{ cuisine.name }}">{{cuisine.name}}</option>
+            {% endif %}
+            {% endfor %}
+        </select>
+    </div>
+    <div class="input-group mb-3 w-auto">
+        <button class="btn btn-warning light-color search-input-last" type="submit">
+            <i class="fas fa-chevron-right"></i>
+        </button>
+    </div>
+</form>

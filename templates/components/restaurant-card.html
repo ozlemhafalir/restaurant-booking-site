@@ -1,0 +1,27 @@
+<div class="card">
+    {% with image=restaurant.images.first %}
+    {% if image %}
+    <div class="card-img-top card-img-top-div rounded" style="background-image: url({{image.image.url}});"></div>
+    {% else %}
+    <div class="card-img-top card-img-top-div rounded" style="background-image: url(https://picsum.photos/200/150);"></div>
+    {% endif %}
+    {% endwith %}
+    <div class="card-body">
+        <h5 class="card-title">
+            <a class="link-primary" href="{% url 'restaurant_detail' restaurant.slug %}">
+                <p class="text-truncate">
+                    {{ restaurant.name }}
+                </p>
+            </a>
+        </h5>
+        <p class="fw-lighter text-truncate">
+            <i class="fas fa-map-marker-alt me-2"></i>{{ restaurant.city }}
+        </p>
+        <p class="fw-lighter text-truncate">
+            <i class="fas fa-utensils me-2"></i>{{ restaurant.cuisine_names }}
+        </p>
+        <p class="fw-light card-text text-truncate">
+            {{ restaurant.description }}
+        </p>
+    </div>
+</div>
