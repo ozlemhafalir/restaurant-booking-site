@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container mb-5 mt-5">
+    {% include "components/account-restaurant-menu.html" with active_item="photos" %}
+    <div class="tab-content p-3">
+        <div class="tab-pane active" id="home" role="tabpanel" aria-labelledby="home-tab">
+            <div class="row mb-3">
+                {% for image in object_list %}
+                <div class="col-6 col-md-4 col-lg-3 mb-3">
+                    <img src="{{ image.image.url }}" alt="" class="img-fluid">
+                    <div class="text-end">
+                        <form action="{% url "account_restaurant_photos_delete" restaurant_id=restaurant.id pk=image.id %}"
+                        method="POST">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-outline-danger btn-sm">Delete</button>
+                        </form>
+                    </div>
+                </div>
+                {% endfor %}
+                <div class="col-12 mb-3 d-flex align-items-center">
+                    <div class="form-group">
+                        <form enctype="multipart/form-data" action="{% url "account_restaurant_photos_create" restaurant_id=restaurant.id %}"
+                        method="POST">
+                        {% csrf_token %}
+                        <label for="description">Add New</label>
+                        <input class="form-control" type="file" id="image" name="image" required>
+                        <button type="submit" class="btn link-primary btn-sm">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

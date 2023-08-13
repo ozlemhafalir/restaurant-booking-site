@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container mb-5 mt-5">
+    {% include "components/account-restaurant-menu.html" with active_item="detail" %}
+    <div class="tab-content p-3">
+        <div class="tab-pane active" id="home" role="tabpanel" aria-labelledby="home-tab">
+            <div class="text-end"><a class="link-primary-small" href="{% url "restaurant_detail" restaurant.slug %}">Go to restaurant page</a>
+            </div>
+            <form enctype="multipart/form-data" action="{% url "account_restaurant_detail" id=restaurant.id %}"
+            method="POST">
+            {% csrf_token %}
+            <div class="row mb-3">
+                <div class="col-12 col-md-8">
+                    <div class="form-group">
+                        <label for="name">Restaurant name</label>
+                        <input type="text" class="form-control" id="name" name="name"
+                               value="{{ restaurant.name }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Restaurant description</label>
+                        <textarea class="form-control" id="description" name="description"
+                                  rows="3">{{ restaurant.description }}</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="address">Restaurant address</label>
+                        <input type="text" class="form-control" id="address" name="address"
+                               value="{{ restaurant.address }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="city">City</label>
+                        <select name="city" id="city" class="form-select" aria-label="Default select example">
+                            {% for city in cities %}
+                            {% if city == restaurant.city %}
+                            <option value="{{ city.id }}" selected>{{ city.name }}</option>
+                            {% else %}
+                            <option value="{{ city.id }}">{{ city.name }}</option>
+                            {% endif %}
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="cuisines">Cuisine</label>
+                        <select name="cuisines" id="cuisines" class="form-select" multiple
+                                aria-label="Default select example">
+                            {% for cuisine in cuisines %}
+                            {% if cuisine in restaurant.cuisines.all %}
+                            <option value="{{ cuisine.id }}" selected>{{ cuisine.name }}</option>
+                            {% else %}
+                            <option value="{{ cuisine.id }}">{{ cuisine.name }}</option>
+                            {% endif %}
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="col-12 col-md-4">
+                    <div class="form-group">
+                        <label for="description">Menu</label>
+                        <img class="img-fluid" src="{{ restaurant.menu.url }}" alt="{{ resturant.name }}"/>
+                        <input class="form-control" type="file" id="menu" name="menu">
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </div>
+                </div>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

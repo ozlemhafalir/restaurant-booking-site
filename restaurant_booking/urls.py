@@ -17,9 +17,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+import restaurant_booking.filters
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('home.urls'), name='home_urls'),
     path('restaurant/', include('restaurant.urls'), name='restaurant_urls'),
+    path('reservation/', include('reservation.urls'), name='reservation_urls'),
     path('accounts/', include('allauth.urls')),
 ]

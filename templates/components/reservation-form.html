@@ -1,0 +1,21 @@
+<h5>Make a reservation</h5>
+<p><small>You are making reservation as {{user.username}}</small></p>
+<form method="POST" action="{% url 'reservation_form' %}">
+    {% csrf_token %}
+    <fieldset>
+        <input type="hidden" id="restaurant_id" name="restaurant_id" value="{{restaurant.id}}" />
+        <div class="mb-3">
+            <label for="date" class="form-label">Date</label>
+            <input type="date" id="date" name="date" class="form-control" placeholder="Date" />
+        </div>
+        <div class="mb-3">
+            <label for="guests" class="form-label">Guests</label>
+            <input type="text" id="guests" name="guests" class="form-control" placeholder="Guests" />
+        </div>
+        <div class="mb-3">
+            <label for="note" class="form-label">Note</label>
+            <textarea id="note" name="note" class="form-control" placeholder="Note"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </fieldset>
+</form>

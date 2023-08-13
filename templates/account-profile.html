@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mb-5 mt-5">
+    {% include "components/user-account-menu.html" with active_item="profile" %}
+    <div class="tab-content p-3">
+        <div class="tab-pane active" id="home" role="tabpanel" aria-labelledby="home-tab">
+            <h5 class="mb-3">Edit Profile</h5>
+            <form method="post" action="{%  url "account_profile" %}">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="firstName">First name</label>
+                    <input type="text" name="first_name" class="form-control" id="firstName" placeholder="" value="{{ user.first_name }}" required>
+                    <div class="invalid-feedback">
+                        Valid first name is required.
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="lastName">Last name</label>
+                    <input type="text" name="last_name" class="form-control" id="lastName" placeholder="" value="{{ user.last_name }}" required>
+                    <div class="invalid-feedback">
+                        Valid last name is required.
+                    </div>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="email">Email</label>
+                <input type="email" name="email" class="form-control" id="email" placeholder="" value="{{ user.email }}" required>
+                <div class="invalid-feedback">
+                    Please enter a valid email address for shipping updates.
+                </div>
+            </div>
+            <div class="mb-3">
+                <button class="btn btn-primary btn-block" type="submit">Save</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,4 @@
+<nav class="nav">
+    <a class="nav-link link-primary {{ active_item|is_active:"reservations" }}" aria-current="page" href="{% url "account_reservations" %}"><i class="fas fa-bars me-2"></i>Reservations</a>
+    <a class="nav-link link-primary {{ active_item|is_active:"profile" }}" href="{% url "account_profile" %}"><i class="fas fa-user me-2"></i>Profile</a>
+</nav>

@@ -1,0 +1,130 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container mb-5 mt-5">
+    {% include "components/account-restaurant-menu.html" with active_item="reservations" %}
+    <div class="tab-content p-3">
+        <div class="tab-pane active" id="home" role="tabpanel" aria-labelledby="home-tab">
+            <div class="mb-3 d-flex align-items-center">
+                <label for="date" class="text-nowrap me-3">Filter by date:</label>
+                <form action="{{ request.get_full_path }}" method="GET" class="w-100">
+                    <div class="input-group">
+                        <input type="date" id="date" name="date" class="form-control" placeholder="Date"
+                               aria-label="Date" aria-describedby="date" value="{{ date }}">
+                        <button class="btn btn-outline-secondary" type="submit" id="button-addon1">Filter</button>
+                    </div>
+                </form>
+            </div>
+            {% if reservations|length %}
+            <div class="table-responsive pb-4">
+                <table class="table mb-4">
+                    <thead>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Guests</th>
+                        <th scope="col">Note</th>
+                        <th scope="col">Created On</th>
+                        <th scope="col" class="text-end">Status</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for reservation in reservations %}
+                    <tr>
+                        <td class="p-2"><span class="text-nowrap">{{ reservation.user.first_name }}</span>
+                        </td>
+                        <td class="p-2"><span class="text-nowrap">{{ reservation.date }}</span></td>
+                        <td class="p-2"><span class="text-nowrap">{{ reservation.guests }}</span></td>
+                        <td class="p-2"><span class="text-nowrap">
+                                    {{ reservation.note|truncatechars:20 }}
+                                    <button type="button" class="btn btn-link btn-sm link-primary"
+                                            data-bs-container="body"
+                                            data-bs-toggle="popover" data-bs-placement="left"
+                                            data-bs-content="{{ reservation.note }}">
+                                        <i class="fas fa-info-circle"></i>
+                                    </button>
+                                </span>
+                        </td>
+                        <td class="p-2"><span class="text-nowrap">{{ reservation.created_on }}</span></td>
+                        <td class="p-2 text-end">
+                            <div class="btn-group dropdown-center">
+                                <button type="button"
+                                        class="btn btn-sm dropdown-toggle btn-{{ reservation.status|reservation_status_class }}"
+                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                    {{ reservation.status }}
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li>
+                                        <form action="{% url "reservation_action" id=reservation.id action="approve" %}?next={{ request.get_full_path }}"
+                                        method="post">
+                                        <input type="hidden" name="csrfmiddlewaretoken"
+                                               value="{{ csrf_token }}">
+                                        <button type="submit" class="dropdown-item link-primary-small">
+                                            Approve
+                                        </button>
+                                        </form>
+                                    </li>
+                                    <li>
+                                        <form action="{% url "reservation_action" id=reservation.id action="decline" %}?next={{ request.get_full_path }}"
+                                        method="post">
+                                        <input type="hidden" name="csrfmiddlewaretoken"
+                                               value="{{ csrf_token }}">
+                                        <button type="submit" class="dropdown-item link-primary-small">
+                                            Decline
+                                        </button>
+                                        </form>
+                                    </li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                <div>
+                    <nav>
+                        <ul class="pagination">
+                            {% if reservations.has_previous %}
+                            <li class="page-item"><a class="page-link link-primary-small"
+                                                     href="?date={{ date }}&page=1">First</a>
+                            </li>
+                            <li class="page-item"><a class="page-link link-primary-small"
+                                                     href="?date={{ date }}&page={{ reservations.previous_page_number }}">Prev</a>
+                            </li>
+                            {% endif %}
+                            <li class="d-flex align-items-center ms-3 me-3  link-primary-small">
+                                Page {{ reservations.number }}/{{ reservations.paginator.num_pages }}</li>
+
+                            {% if reservations.has_next %}
+                            <li class="page-item"><a class="page-link link-primary-small"
+                                                     href="?date={{ date }}&page={{ reservations.next_page_number }}">Next</a>
+                            </li>
+                            <li class="page-item"><a class="page-link link-primary-small"
+                                                     href="?date={{ date }}&page={{ reservations.paginator.num_pages }}">Last</a>
+                            </li>
+                            {% endif %}
+                        </ul>
+                    </nav>
+                    <small>
+                        Showing {{ reservations.paginator.per_page }} results per page:
+                    </small>
+                </div>
+            </div>
+            {% else %}
+            <div class="alert alert-info" role="alert">
+                No reservations found, please try by clearing the date filter.
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script type="text/javascript">
+    const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
+    const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
+</script>
+{% endblock %}

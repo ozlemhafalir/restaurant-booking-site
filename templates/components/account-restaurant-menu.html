@@ -1,0 +1,14 @@
+
+<div class="text-end">
+        <span class="badge text-bg-{{ restaurant.status|restaurant_status_class }}">
+            Restaurant status: {{ restaurant.status }}
+        </span>
+</div>
+<nav class="nav">
+    <a class="nav-link link-primary {{ active_item|is_active:"reservations" }}" aria-current="page"
+    href="{% url "account_restaurant_reservations" restaurant.id %}"><i class="fas fa-bars me-2"></i>Reservations</a>
+    <a class="nav-link link-primary {{ active_item|is_active:"detail" }}"
+    href="{% url "account_restaurant_detail" restaurant.id %}"><i class="fas fa-user me-2"></i>Restaurant Details</a>
+    <a class="nav-link link-primary {{ active_item|is_active:"photos" }}"
+    href="{% url "account_restaurant_photos" restaurant.id %}"><i class="fas fa-user me-2"></i>Restaurant Photos</a>
+</nav>

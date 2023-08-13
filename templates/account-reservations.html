@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container mb-5 mt-5">
+    {% include "components/user-account-menu.html" with active_item="reservations" %}
+    <div class="tab-content p-3">
+        <div class="tab-pane active" id="home" role="tabpanel" aria-labelledby="home-tab">
+            <h5 class="mb-3">Upcoming</h5>
+            {% for reservation in upcoming %}
+            <div class="row">
+                <div class="col-12 mb-3">
+                    {% include "components/reservation-card.html" %}
+                </div>
+            </div>
+            {% endfor %}
+            <h5 class="mb-3">Past</h5>
+            {% for reservation in past %}
+            {% include "components/reservation-card.html" %}
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+{%endblock%}
+
+{% block scripts %}
+<script type="text/javascript">
+    const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
+    const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
+</script>
+{% endblock %}
