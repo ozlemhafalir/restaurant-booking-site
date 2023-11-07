@@ -7,17 +7,25 @@
     <div class="tab-content p-3">
         <div class="tab-pane active" id="home" role="tabpanel" aria-labelledby="home-tab">
             <h5 class="mb-3">Upcoming</h5>
-            {% for reservation in upcoming %}
-            <div class="row">
-                <div class="col-12 mb-3">
-                    {% include "components/reservation-card.html" %}
+            {% if upcoming %}
+                {% for reservation in upcoming %}
+                <div class="row">
+                    <div class="col-12 mb-3">
+                        {% include "components/reservation-card.html" %}
+                    </div>
                 </div>
-            </div>
-            {% endfor %}
+                {% endfor %}
+            {% else %}
+                <div>You have no upcoming reservations</div>
+            {% endif %}
             <h5 class="mb-3">Past</h5>
-            {% for reservation in past %}
-            {% include "components/reservation-card.html" %}
-            {% endfor %}
+            {% if past %}
+                {% for reservation in past %}
+                    {% include "components/reservation-card.html" %}
+                {% endfor %}
+            {% else %}
+                <div>You have no past reservations</div>
+            {% endif %}
         </div>
     </div>
 </div>

@@ -5,6 +5,7 @@ from django import forms
 
 from reservation.models import Reservation
 from restaurant.models import Restaurant
+from django.utils import timezone
 
 
 class ReservationForm(forms.Form):
@@ -12,6 +13,12 @@ class ReservationForm(forms.Form):
     guests = forms.IntegerField(required=True)
     note = forms.CharField(max_length=1000)
     restaurant_id = forms.IntegerField(required=True)
+
+    def clean_date(self):
+        date = self.cleaned_data.get('date')
+        if date < timezone.now().date():
+            raise forms.ValidationError('the date must be after now.')
+        return date
 
     def save(self, user):
         restaurant = Restaurant.objects.get(pk=self.cleaned_data.get('restaurant_id'))
@@ -32,6 +39,9 @@ class ReservationFormView(generic.FormView):
     def form_valid(self, form):
         form.save(self.request.user)
         return super().form_valid(form)
+
+    def form_invalid(self, form):
+        return super().form_invalid(form)
 
 
 class ThanksView(View):

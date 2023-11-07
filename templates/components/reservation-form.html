@@ -6,7 +6,7 @@
         <input type="hidden" id="restaurant_id" name="restaurant_id" value="{{restaurant.id}}" />
         <div class="mb-3">
             <label for="date" class="form-label">Date</label>
-            <input type="date" id="date" name="date" class="form-control" placeholder="Date" />
+            <input type="date" min="{% now 'Y-m-d' %}" id="date" name="date" class="form-control" placeholder="Date" />
         </div>
         <div class="mb-3">
             <label for="guests" class="form-label">Guests</label>
