@@ -37,7 +37,7 @@
                 <li>
                     <hr class="dropdown-divider">
                 </li>
-                <li><span class="dropdown-item-text link-primary-small">Restaurant Management</span></li>
+                <li><span class="dropdown-item-text link-primary-small fw-bold">My Restaurants</span></li>
                 {% for restaurant in user.restaurants.all %}
                 <li><a class="dropdown-item  link-primary-small fw-light"
                        href="{% url 'account_restaurant_reservations' restaurant.id %}">{{ restaurant.name }}</a>
@@ -74,13 +74,12 @@
     <div class="container">
         <div class="row">
             <div class="col-12 col-sm-6 p-3">
-                <p>A project by Ozlem Hafalir for CodeInstitute</p>
-                <a href="#" class="link-light"><i class="fab fa-github"></i></a>
+                <p>A portfolio project by Ozlem Hafalir</p>
+                <a href="https://github.com/ozlemhafalir" target="_blank" class="link-light me-2"><i class="fab fa-github"></i></a>
+                <a href="https://www.linkedin.com/in/ozlem-hafalir/" target="_blank" class="link-light"><i class="fab fa-linkedin"></i></a>
             </div>
             <div class="col-12 col-sm-6 p-3 text-start text-sm-end">
                 <p><a href={% url 'register_restaurant' %} class="link-light">Register Your Restaurant</a></p>
-                <a href="#" class="link-light"><i class="fab fa-facebook"></i></a>
-                <a href="#" class="link-light"><i class="fab fa-instagram ms-3"></i></a>
             </div>
         </div>
     </div>
